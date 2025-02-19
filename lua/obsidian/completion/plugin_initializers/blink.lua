@@ -90,6 +90,9 @@ local function try_inject_blink_sources_into_per_filetype(blink_sources_per_file
     for _, provider in pairs(M.providers) do
       add_element_to_list_if_not_exists(markdown_config, provider.name)
     end
+
+    -- Overwrite the original config table with the newly generated one
+    require("blink.cmp.config").sources.per_filetype["markdown"] = markdown_config
     return true
   elseif markdown_config_type == "function" then
     local original_func = markdown_config
@@ -147,6 +150,8 @@ local function try_inject_blink_sources_into_default(blink_sources_default)
       add_element_to_list_if_not_exists(blink_sources_default, provider.name)
     end
 
+    -- Overwrite the original config table with the newly generated one
+    require("blink.cmp.config").sources.default = blink_sources_default
     return true
   elseif blink_default_type == "table" then
     log_unexpected_type(".sources.default", blink_default_type, "a list")
